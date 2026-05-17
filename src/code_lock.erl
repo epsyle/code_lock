@@ -98,9 +98,9 @@ handle_event(enter, _OldState, {suspended,_}, Data) ->
     % on entering suspended we could log or do other actions
     io:format("Suspended (too many wrong attempts)~n", []),
     {keep_state, Data#{buttons := []}};
-% all button attempts in suspended return an error reply if they come as calls
+% No reaction while trying to enter the code in this state
 handle_event(cast, {button,_}, {suspended,_}, Data) ->
-    {keep_state, Data, [{postpone}]};
+    {keep_state, Data};
 handle_event({call,From}, {set_code,_}, {suspended,_}, Data) ->
     % do not allow changing code while suspended
     {keep_state, Data, [{reply,From,{error, suspended}}]};
